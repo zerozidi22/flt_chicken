@@ -1,0 +1,69 @@
+server:
+  address: localhost
+  port: 9080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://34.121.63.14:3306/ck?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    password: tjqltm!@34
+    username: kai
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      minimum-idle: 10
+      maximum-pool-size: 50
+      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+      pool-name: pool-kai
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    show-sql: true
+    open-in-view: false
+
+#security:
+#  firebase-props:
+#    database-url: ${FIREBASE_DATABASE}
+#    enable-strict-server-session: false
+#    enable-check-session-revoked: false
+#    enable-logout-everywhere: false
+#    session-expiry-in-days: 5
+#  cookie-props:
+#    max-age-in-minutes: 7200
+#    http-only: true
+#    secure: true
+#    domain: ${DOMAIN}
+#    path: /
+#  allow-credentials: true
+#  allowed-origins:
+#    - https://${DOMAIN}
+#    - http://localhost:3000
+#  allowed-methods:
+#    - GET
+#    - POST
+#    - PUT
+#    - PATCH
+#    - DELETE
+#    - OPTIONS
+#  allowed-headers:
+#    - Authorization
+#    - Origin
+#    - Content-Type
+#    - Accept
+#    - Accept-Encoding
+#    - Accept-Language
+#    - Access-Control-Allow-Origin
+#    - Access-Control-Allow-Headers
+#    - Access-Control-Request-Method
+#    - X-Requested-With
+#    - X-Auth-Token
+#    - X-Xsrf-Token
+#    - Cache-Control
+#    - Id-Token
+#  allowed-public-apis:
+#    - /favicon.ico
+#    - /session/login
+#    - /public/**
+#  exposed-headers:
+#    - X-Xsrf-Token

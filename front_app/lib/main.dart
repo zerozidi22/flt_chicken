@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:front_app/screens/chickenAdd.dart';
 import 'package:front_app/screens/chickenRank.dart';
+import 'package:front_app/screens/firebase_provider.dart';
 import 'package:front_app/screens/login.dart';
 import 'package:front_app/screens/memberRank.dart';
 import 'package:front_app/screens/myPage.dart';
-import 'package:kakao_flutter_sdk/all.dart';
+import 'package:provider/provider.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -13,14 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    KakaoContext.clientId = '4d5f60426000aaf1728a60ad3f7b8e74';
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+
+
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FirebaseProvider>(
+            builder: (_) => FirebaseProvider())
+      ],
+      child: MaterialApp(
+        title: "Flutter Firebase",
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
+
+
+
+    //   MaterialApp(
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   home: MyHomePage(title: 'Flutter Demo Home Page'),
+    // );
   }
 }
 
@@ -55,10 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
         body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,

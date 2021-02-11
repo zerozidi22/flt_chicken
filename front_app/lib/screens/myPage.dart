@@ -1,6 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'firebase_provider.dart';
 
 class myPage extends StatefulWidget {
   @override
@@ -9,10 +12,12 @@ class myPage extends StatefulWidget {
 
 
 class _MyPage extends State<myPage> {
+  FirebaseProvider fp;
   @override
   Widget build(BuildContext context) {
+    fp = Provider.of<FirebaseProvider>(context);
     return Container(
-      child: Text('myPage'),
+      child: Text(fp.getUser().uid),
     );
   }
 
