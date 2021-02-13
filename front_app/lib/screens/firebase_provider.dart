@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
+
 
 Logger logger = Logger();
 
 class FirebaseProvider with ChangeNotifier {
   final FirebaseAuth fAuth = FirebaseAuth.instance; // Firebase 인증 플러그인의 인스턴스
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final Firestore firestoreInstance = Firestore();
 
   FirebaseUser _user; // Firebase에 로그인 된 사용자
 
@@ -35,18 +38,36 @@ class FirebaseProvider with ChangeNotifier {
   }
 
   // 이메일/비밀번호로 Firebase에 회원가입
-  Future<bool> signUpWithEmail(String email, String password) async {
+  Future<bool> signUpWithEmail(String email, String password, String nickName) async {
     try {
+
+      //check NickName
       AuthResult result = await fAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      //user db에 insert
+      //uuid, nickName을 가지고
+
+
+
       if (result.user != null) {
         // 인증 메일 발송
-        result.user.sendEmailVerification();
+
+        await Firestore()
+            .collection("users")
+            .document(result.user.uid)
+            .setData({
+              "NICK_NAME" : nickName
+            }).then((_) {
+          print("success!");
+        });
+
+        await result.user.sendEmailVerification();
         // 새로운 계정 생성이 성공하였으므로 기존 계정이 있을 경우 로그아웃 시킴
-        signOut();
+        await signOut();
         return true;
       }
     } on Exception catch (e) {
+      print("exceiption called");
       logger.e(e.toString());
       List<String> result = e.toString().split(", ");
       setLastFBMessage(result[1]);

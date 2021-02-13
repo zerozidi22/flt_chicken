@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class SignUpPage extends StatefulWidget {
 class SignUpPageState extends State<SignUpPage> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
+  TextEditingController _nickCon = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FirebaseProvider fp;
@@ -24,6 +26,7 @@ class SignUpPageState extends State<SignUpPage> {
   void dispose() {
     _mailCon.dispose();
     _pwCon.dispose();
+    _nickCon.dispose();
     super.dispose();
   }
 
@@ -79,6 +82,13 @@ class SignUpPageState extends State<SignUpPage> {
                           ),
                           obscureText: true,
                         ),
+                        TextField(
+                          controller: _nickCon,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.account_circle_rounded),
+                            hintText: "NickName",
+                          )
+                        ),
                       ].map((c) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -124,7 +134,18 @@ class SignUpPageState extends State<SignUpPage> {
           ],
         ),
       ));
-    bool result = await fp.signUpWithEmail(_mailCon.text, _pwCon.text);
+
+    // Firestore()
+    //     .collection("users")
+    //     .document("aabbccdd")
+    //     .setData(
+    //     {
+    //       "NICK_NAME" : "kai"
+    //     }).then((_) {
+    //   print("success!");
+    // });
+
+    bool result = await fp.signUpWithEmail(_mailCon.text, _pwCon.text, _nickCon.text);
     _scaffoldKey.currentState.hideCurrentSnackBar();
     if (result) {
       Navigator.pop(context);
